@@ -50,7 +50,7 @@ void expression(){
             result = left + result;
         }
 
-        else if(*cp == '+'){
+        else if(*cp == '-'){
             ++cp;
             term();
             result = left - result;
