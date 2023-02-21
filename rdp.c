@@ -1,13 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char *cp, *error;
-int result;
+//  Declaring global variables.
+//  the 'g_' at the start indicates a global variable as opposed to a local variable.
+char *g_cp, *g_error;
+int g_result;
 
 //  These functions have the following roles:
 //  'expression'    Used for positive and negative integer values.
 //  'term'          Used for multiplication and division.
 //  'factor'        Used for parenthesis, addition, subtraction, and converting strings to integers.
+//  'trivia'        Used for skipping spaces in text string.
 void expression();
 void term();
 void factor();
@@ -16,22 +19,22 @@ void trivia();
 void main()
 {
     //  Defining the input value.
-    cp = "(10 + 2 * 3) / 4";
-    //  Defining an error as a null value.
-    error = NULL;
-    //  Defining the result value as 0.
-    result = 0;
+    g_cp = "(10 + 2 * 3) / 4";
+    //  Defining an g_error as a null value.
+    g_error = NULL;
+    //  Defining the g_result value as 0.
+    g_result = 0;
 
     // Running the expression function.
     expression();
 
-    if (error)
+    if (g_error)
     {
-        printf("error: %s\n", error);
+        printf("Error: %s\n", g_error);   
     }
     else
     {
-        printf("result: %i\n", result);
+        printf("Result: %i\n", g_result);
     }
 }
 
@@ -42,20 +45,20 @@ void expression(){
     //  While a character is present, check for '+' and '-'.
     //  If found move pointer along.
     //  Start the term function.
-    //  + or - the result from subtotal.
+    //  + or - the g_result from subtotal.
     //  If none found break the operation.
-    while(!error){
-        int left = result;
-        if(*cp == '+'){
-            ++cp;
+    while(!g_error){
+        int left = g_result;
+        if(*g_cp == '+'){
+            ++g_cp;
             term();
-            result = left + result;
+            g_result = left + g_result;
         }
 
-        else if(*cp == '-'){
-            ++cp;
+        else if(*g_cp == '-'){
+            ++g_cp;
             term();
-            result = left - result;
+            g_result = left - g_result;
         }
 
         else{
@@ -69,35 +72,35 @@ void term(){
     factor();
 
     //  While a character is present.
-    //  Assign left to result.
+    //  Assign left to g_result.
     //  Start the trivia function to check for spaces.
     //  Check for '*' or '/'.
     //  If '*':
         //  Move pointer along.
         //  Start the factor function.
-        //  Times result by subtotal.
+        //  Times g_result by subtotal.
     //  If '/';
         //  Move pointer along.
         //  Start the factor function.
-        //  Check if result is 0.
-        //  If 0, throw an error and exit the program.
-    while(!error){
-        int left = result;
+        //  Check if g_result is 0.
+        //  If 0, throw an g_error and exit the program.
+    while(!g_error){
+        int left = g_result;
         trivia();
         
-        if (*cp == '*'){
-            ++cp;
+        if (*g_cp == '*'){
+            ++g_cp;
             factor();
-            result = left * result;
+            g_result = left * g_result;
         }
-        else if(*cp == '/'){
-            ++cp;
+        else if(*g_cp == '/'){
+            ++g_cp;
             factor();
-            if(result != 0){
-                result = left / result;
+            if(g_result != 0){
+                g_result = left / g_result;
             }
             else{
-                error = "Divide by zero";
+                g_error = "Divide by zero";
             }
         }
         else{
@@ -114,60 +117,60 @@ void factor(){
         //  Start expression function for grouping text inside brackets.
         //  When finished check for ')'.
         //  If found move pointer forward.
-        //  If not found throw an error.
+        //  If not found throw an g_error.
     //  If '+' found:
         //  Move pointer along.
         //  Open factor function to check for parenthesis.
-        //  Add result to subtotal.
+        //  Add g_result to subtotal.
     //  If '-' found:
         //  Move pointer along.
         //  Open factor function to check for parenthesis.
-        //  Subract result to subtotal.
+        //  Subract g_result to subtotal.
     //  Check for numbers.
         //  Convert character to integer by subtracting 48 from value.
-        //  Assign resulting integer to result.
+        //  Assign resulting integer to g_result.
         //  Move pointer along.
         //  While still the same number (no other characters found):
             //  Convert character to integer by subtracting 48 from value.
             //  Multiply subtotal by 10.
             //  Add resulting integer to subtotal.
             //  Move Character pointer along.
-    //  If no number found throw an error.
+    //  If no number found throw an g_error.
     trivia();
-    int left = result;
-    if(*cp == '('){
-        ++cp;
+    int left = g_result;
+    if(*g_cp == '('){
+        ++g_cp;
         expression();
-        if(*cp == ')'){
-            ++cp;
+        if(*g_cp == ')'){
+            ++g_cp;
         }
         else{
-            error = "No closing parenthesis";
+            g_error = "No closing parenthesis";
         }
     }
-    else if(*cp == '+'){
-        ++cp;
+    else if(*g_cp == '+'){
+        ++g_cp;
         factor();
-        result = left + result;
+        g_result = left + g_result;
     }
-    else if(*cp == '-'){
-        ++cp;
+    else if(*g_cp == '-'){
+        ++g_cp;
         factor();
-        result = left - result;
+        g_result = left - g_result;
     }
-    else if(*cp >='0' && *cp<= '9'){
-        result = *cp - 48;
-        ++cp;
-        while(*cp >='0' && *cp<= '9'){
-            result = (result*10) + *cp - 48;
-            ++cp;
+    else if(*g_cp >='0' && *g_cp<= '9'){
+        g_result = *g_cp - 48;
+        ++g_cp;
+        while(*g_cp >='0' && *g_cp<= '9'){
+            g_result = (g_result*10) + *g_cp - 48;
+            ++g_cp;
         }
     }
 }
 
 void trivia(){
     //  While the character pointer is ' ', move the pointer forward.
-    while(*cp==' '){
-        ++cp;
+    while(*g_cp==' '){
+        ++g_cp;
     }
 }
