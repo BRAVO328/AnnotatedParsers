@@ -4,6 +4,10 @@
 char *cp, *error;
 int result;
 
+//  These functions have the following roles:
+//  'expression'    Used for positive and negative integer values.
+//  'term'          Used for multiplication and division.
+//  'factor'        Used for parenthesis, addition, subtraction, and converting strings to integers.
 void expression();
 void term();
 void factor();
@@ -11,9 +15,8 @@ void trivia();
 
 void main()
 {
-    printf("Main function start\n");
     //  Defining the input value.
-    cp = "(10 + 2 * 3) * 4";
+    cp = "(10 + 2 * 3) / 4";
     //  Defining an error as a null value.
     error = NULL;
     //  Defining the result value as 0.
@@ -34,7 +37,6 @@ void main()
 
 void expression(){
     //  Starting the term function to check for division/multiplication.
-    printf("Expression function start\n");
     term();
 
     //  While a character is present, check for '+' and '-'.
@@ -63,7 +65,6 @@ void expression(){
 }
 
 void term(){
-    printf("Term function start\n");
     //  Starting the factor function to check for brackets.
     factor();
 
@@ -106,7 +107,6 @@ void term(){
 }
 
 void factor(){
-    printf("factor function start\n");
     //  Open the trivia function to check for spaces.
     //  Check for symbols.
     //  If '(' found:
@@ -152,6 +152,7 @@ void factor(){
     }
     else if(*cp == '-'){
         ++cp;
+        factor();
         result = left - result;
     }
     else if(*cp >='0' && *cp<= '9'){
@@ -165,7 +166,6 @@ void factor(){
 }
 
 void trivia(){
-    printf("Trivia function start\n");
     //  While the character pointer is ' ', move the pointer forward.
     while(*cp==' '){
         ++cp;
