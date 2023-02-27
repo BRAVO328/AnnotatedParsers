@@ -7,12 +7,10 @@ char *g_cp, *g_error;
 int g_result;
 
 //  These functions have the following roles:
-//  'input'         Used for detecting the input sum.
 //  'expression'    Used for positive and negative integer values.
 //  'term'          Used for multiplication and division.
 //  'factor'        Used for parenthesis, addition, subtraction, and converting strings to integers.
 //  'trivia'        Used for skipping spaces in text string.
-void input();
 void expression();
 void term();
 void factor();
@@ -20,8 +18,8 @@ void trivia();
 
 void main()
 {
-    //  Running the input function.
-    input();
+    //  Defining the input value.
+    g_cp = "(10 + 2 * 3) / 4";
     //  Defining an g_error as a null value.
     g_error = NULL;
     //  Defining the g_result value as 0.
@@ -38,17 +36,6 @@ void main()
     {
         printf("Result: %i\n", g_result);
     }
-}
-
-void input(){
-    // Adding an input sum with upto 128 characters.
-    char inputSum[128];
-    //  Prompting the user to enter the input sum.
-    printf("Type the input sum: ");
-    //  Reading the user input from the command line, and assigning the value to the inputSum variable.
-    fgets(inputSum, sizeof(inputSum), stdin);
-    //  Assigning the inputSum variable to the g_cp variable.
-    g_cp = inputSum;
 }
 
 void expression(){
