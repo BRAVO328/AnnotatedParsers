@@ -1,27 +1,27 @@
-zzzinput_string = "(10+2)*3+4"
+input_string = "(10+2)*3+4"
 pos = 0
 
 def assign():
-    global zzzinput_string
+    global input_string
     global pos
     global result
-    zzzinput_string = input("Enter sum: ")
+    input_string = input("Enter sum: ")
     pos = 0
     result = 0
 
 def expression():
-    global zzzinput_string
+    global input_string
     global pos
 
     result = term()
 
-    while pos < len(zzzinput_string):
+    while pos < len(input_string):
         left = result
-        if zzzinput_string[pos] == "+":
+        if input_string[pos] == "+":
             pos += 1
             result = term()
             result = left + result
-        elif zzzinput_string[pos] == "-":
+        elif input_string[pos] == "-":
             pos -= 1
             result = term()
             result = left - term
@@ -29,17 +29,17 @@ def expression():
             break
 
 def term():
-    global zzzinput_string
+    global input_string
     global pos
     result = factor()
-    while pos < len(zzzinput_string):
+    while pos < len(input_string):
         left = result
-        trivia()
-        if zzzinput_string[pos] == "*":
+        result = trivia()
+        if input_string[pos] == "*":
             pos += 1
             result = factor()
             result = left * result
-        elif zzzinput_string[pos] == "/":
+        elif input_string[pos] == "/":
             pos += 1
             result = factor()
             if result != "0":
@@ -50,43 +50,43 @@ def term():
             break
 
 def factor():
-    global zzzinput_string
+    global input_string
     global pos
     result = trivia()
     left = result
-    if zzzinput_string[pos] == "(":
+    if input_string[pos] == "(":
         pos += 1
-        expression()
-        if zzzinput_string[pos] == ")":
+        result = expression()
+        if input_string[pos] == ")":
             pos += 1
         else:
             error = "No closing parenthesis"
     
-    elif zzzinput_string[pos] == "+":
+    elif input_string[pos] == "+":
         pos += 1
         result = factor()
         result = left + result
-    elif zzzinput_string[pos] == "-":
+    elif input_string[pos] == "-":
         pos += 1
         result = factor()
         result = left - result
 
 
 
-    elif pos < len(zzzinput_string) and zzzinput_string[pos] >= "0" and zzzinput_string[pos] <= "9":
-        result = int(zzzinput_string[pos])
+    elif pos < len(input_string) and input_string[pos] >= "0" and input_string[pos] <= "9":
+        result = int(input_string[pos])
         pos += 1
-        while zzzinput_string[pos] >= "0" and zzzinput_string[pos] <= "9":
-            result = (result * 10) + (int(zzzinput_string[pos]))
+        while input_string[pos] >= "0" and input_string[pos] <= "9":
+            result = (result * 10) + (int(input_string[pos]))
             pos += 1
 
 
 
 
 def trivia():
-    global zzzinput_string
+    global input_string
     global pos
-    while zzzinput_string[pos] == " ":
+    while input_string[pos] == " ":
         pos += 1
 
 print(expression())
